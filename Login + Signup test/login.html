@@ -1,0 +1,84 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Document</title>  
+    <link rel="stylesheet" href="style1.css">  
+</head>  
+<body>  
+   <div class="wrapper">  
+      <div class="title">  
+        Login here!  
+      </div>  
+      <form id="login-form">  
+        <div class="field">  
+          <input type="email" id="login-email" required>  
+          <label>Email Address</label>  
+        </div>  
+        <div class="field">  
+          <input type="password" id="login-password" required>  
+          <label>Password</label>  
+        </div>  
+        <div class="content">  
+          <div class="checkbox">  
+            <input type="checkbox" id="remember-me">  
+            <label for="remember-me">Remember me</label>  
+          </div>  
+          <div class="pass-link">  
+            <a href="#">Forgot password?</a>  
+          </div>  
+        </div>  
+        <div class="field">  
+          <input type="submit" value="Login">  
+        </div>  
+        <div class="field">  
+          <button type="button" id="github-login">Login with GitHub</button>  
+        </div>  
+        <div class="signup-link">  
+          Not a member? <a href="signup.html">Signup now</a>  
+        </div>  
+      </form>  
+    </div>  
+</body>  
+<script>  
+// Handle Login Form Submission  
+document.getElementById('login-form').addEventListener('submit', function(event) {  
+  event.preventDefault(); // Prevent form from submitting  
+
+  const email = document.getElementById('login-email').value;  
+  const password = document.getElementById('login-password').value;  
+
+  // Retrieve user data from cookies  
+  const storedUser = getCookie(email);  
+  
+  if (!storedUser) {  
+    alert('User not found! Please sign up.');  
+    return;  
+  }  
+
+  // Parse the stored user data from the cookie  
+  const userData = JSON.parse(storedUser);  
+
+  // Check password  
+  if (userData.password === password) {  
+    alert('Login successful!');  
+    
+    // If "Remember Me" is checked, save user login status in a session cookie  
+    if (document.getElementById('remember-me').checked) {  
+      setCookie('loggedInUser', JSON.stringify(userData), 1); // 1-day expiration for session  
+    }  
+
+    // Redirect to a welcome page or homepage after login  
+    window.location.href = 'index.html'; // Adjust to your desired page  
+  } else {  
+    alert('Incorrect password!');  
+  }  
+});  
+
+// Handle GitHub Login Button Click  
+document.getElementById('github-login').addEventListener('click', function() {  
+  alert('GitHub login is not implemented yet!'); // Replace with actual GitHub login implementation  
+});  
+</script>  
+</html>

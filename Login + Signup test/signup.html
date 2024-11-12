@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+   <div class="wrapper">
+      <div class="title">
+        Sign up!
+      </div>
+      <form id="signup-form">
+        <div class="field">
+          <input type="text" id="name" required>
+          <label>Name</label>
+        </div>
+        <div class="field">
+          <input type="email" id="email" required>
+          <label>Email Address</label>
+        </div>
+        <div class="field">
+          <input type="password" id="password" required>
+          <label>Password</label>
+        </div>
+        <div class="field">
+          <input type="password" id="confirm-password" required>
+          <label>Confirm Password</label>
+        </div>
+        <div class="field">  
+          <button type="button" id="github-login">Login with GitHub</button>  
+        </div>
+        <div class="content">
+          <div class="pass-link">
+            <br>
+            <p>Have an account?<a href="login.html"> Login here:</a> </p>
+          </div>
+        </div>
+        <div class="field">
+          <input type="submit" value="Sign up">
+        </div>
+      </form>
+    </div>
+</body>
+<script>
+// Helper function to set a cookie
+function setCookie(name, value, days) {
+  let date = new Date();
+  date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // Expiration time
+  const expires = "expires=" + date.toUTCString();
+  document.cookie = name + "=" + value + ";" + expires + ";path=/";
+}
+
+// Helper function to get a cookie by name
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+// Handle Signup Form Submission
+document.getElementById('signup-form').addEventListener('submit', function(event) {
+  event.preventDefault(); // Prevent form from submitting
+
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  const confirmPassword = document.getElementById('confirm-password').value;
+
+  if (password !== confirmPassword) {
+    alert('Passwords do not match!');
+    return;
+  }
+
+  // Check if user already exists using cookies
+  const existingUser = getCookie(email);
+  if (existingUser) {
+    alert('User with this email already exists!');
+    return;
+  }
+
+  // Save user data to cookies (in a real app, don't store plain-text passwords)
+  const userData = JSON.stringify({ name, email, password });
+  setCookie(email, userData, 7); // Store the user data for 7 days
+
+  alert('Signup successful! You can now log in.');
+  window.location.href = 'login.html'; // Redirect to login page
+});
+
+</script>
+</html>
